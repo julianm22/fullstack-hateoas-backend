@@ -4,9 +4,11 @@ import com.example.hateoas_backend.domain.Capability;
 import com.example.hateoas_backend.services.CapabilityService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.parser.Entity;
+import javax.validation.Valid;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +48,9 @@ public class CapabilityController {
     }
 
     @PostMapping
-    public Object createCapability(@RequestBody Capability capability) {
+    public Object createCapability(@Valid @RequestBody Capability capability, BindingResult result) {
+
+        if(result.hasErrors()) return capabilityService.errorMap(result);
 
         Capability newCapability = capabilityService.saveCapability(capability);
 

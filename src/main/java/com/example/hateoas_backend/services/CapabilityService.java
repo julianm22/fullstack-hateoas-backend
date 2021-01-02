@@ -3,9 +3,15 @@ package com.example.hateoas_backend.services;
 import com.example.hateoas_backend.domain.Capability;
 import com.example.hateoas_backend.exceptions.CapabilityException;
 import com.example.hateoas_backend.repositories.CapabilityRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CapabilityService {
@@ -26,5 +32,15 @@ public class CapabilityService {
 
     public Capability saveCapability(Capability capability) {
         return capabilityRepository.save(capability);
+    }
+
+    public ResponseEntity<?> errorMap(BindingResult result) {
+        Map<String, String> errorM = new HashMap<>();
+
+        for(FieldError error: result.getFieldErrors()) {
+            errorM.put(error.getField(), error.getDefaultMessage());
+        }
+
+        return new ResponseEntity<>(errorM, HttpStatus.BAD_REQUEST);
     }
 }
