@@ -61,4 +61,17 @@ public class CapabilityController {
         );
     }
 
+    @PutMapping("/{id}")
+    public Object updateCapability(@PathVariable Long id, @Valid @RequestBody Capability capability, BindingResult result) {
+        if(result.hasErrors()) return capabilityService.errorMap(result);
+
+        Capability capabilityToUpdate = capabilityService.updateCapability(id, capability);
+
+        return new EntityModel<>(
+                capabilityToUpdate,
+                linkTo(methodOn(CapabilityController.class).getCapability(capabilityToUpdate.getId())).withRel("getThisCapability"),
+                linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
+        );
+    }
+
 }

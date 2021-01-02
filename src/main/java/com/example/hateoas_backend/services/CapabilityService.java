@@ -43,4 +43,17 @@ public class CapabilityService {
 
         return new ResponseEntity<>(errorM, HttpStatus.BAD_REQUEST);
     }
+
+    public Capability updateCapability(Long id, Capability capability) {
+
+        return capabilityRepository.findById(id).map(
+                cap -> {
+                    cap.setTechStack(capability.getTechStack());
+                    cap.setNumOfDevelopers(capability.getNumOfDevelopers());
+                    cap.setNumOfAvailableDevelopers(capability.getNumOfAvailableDevelopers());
+                    return capabilityRepository.save(cap);
+                }).orElseGet(() -> {
+                    return capabilityRepository.save(capability);
+                });
+    }
 }
