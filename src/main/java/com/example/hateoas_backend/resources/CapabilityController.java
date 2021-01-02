@@ -4,6 +4,8 @@ import com.example.hateoas_backend.domain.Capability;
 import com.example.hateoas_backend.services.CapabilityService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,6 +74,13 @@ public class CapabilityController {
                 linkTo(methodOn(CapabilityController.class).getCapability(capabilityToUpdate.getId())).withRel("getThisCapability"),
                 linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteCapability(@PathVariable Long id) {
+        capabilityService.deleteCapability(id);
+
+        return new ResponseEntity<String>("Capability Deleted", HttpStatus.OK);
     }
 
 }
