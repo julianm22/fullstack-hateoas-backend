@@ -17,12 +17,13 @@ public class Capability {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String techStack;
-    private Integer numOfDevelopers;
-    private Integer numOfAvailableDevelopers;
+    private Integer numOfDevelopers = 0;
+    private Integer numOfAvailableDevelopers = 0;
 
     public Capability(String techStack, Integer numOfDevelopers, Integer numOfAvailableDevelopers) {
         this.techStack = techStack;
         this.numOfDevelopers = numOfDevelopers;
         this.numOfAvailableDevelopers = numOfAvailableDevelopers;
     }
+
 }

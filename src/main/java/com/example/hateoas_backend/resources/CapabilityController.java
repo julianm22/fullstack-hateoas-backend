@@ -45,4 +45,16 @@ public class CapabilityController {
         return new EntityModel<>(capability, linkTo(methodOn(CapabilityController.class).getCapability(id)).withRel("getThisCapability"));
     }
 
+    @PostMapping
+    public Object createCapability(@RequestBody Capability capability) {
+
+        Capability newCapability = capabilityService.saveCapability(capability);
+
+        return new EntityModel<>(
+                capability,
+                linkTo(methodOn(CapabilityController.class).getCapability(newCapability.getId())).withRel("getThisCapability"),
+                linkTo(methodOn(CapabilityController.class).getAllCapabilities()).withRel("getAllCapabilities")
+        );
+    }
+
 }
